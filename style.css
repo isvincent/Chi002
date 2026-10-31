@@ -76,18 +76,18 @@ body.forced #app { margin: 1rem auto; min-height: calc(100vh - 2rem); border: 3p
 body.forced[data-device="phone"] #app { border-width: 10px; border-color: #2b2b35; }
 
 /* ---------- 頂部 ---------- */
-.topbar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: .7rem; padding: calc(.65rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right)) .65rem calc(1rem + env(safe-area-inset-left)); background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 4px solid var(--gold); }
-.brand { display: flex; align-items: center; gap: .6rem; border: 0; background: none; cursor: pointer; padding: 0; text-align: left; min-width: 0; }
+.topbar { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: nowrap; align-items: center; gap: .6rem; padding: calc(.65rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right)) .65rem calc(1rem + env(safe-area-inset-left)); background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 4px solid var(--gold); }
+.brand { display: flex; align-items: center; gap: .6rem; border: 0; background: none; cursor: pointer; padding: 0; text-align: left; min-width: 0; flex: 0 1 auto; }
 .logo { width: 2.6rem; height: 2.6rem; flex: none; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--red), var(--gold)); color: #fff; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 1.35rem; box-shadow: 0 0 0 4px var(--goldSoft); animation: floaty 3s ease-in-out infinite; }
 .brand-tx { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
 .brand-tx b { font-family: 'Noto Serif TC', serif; font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.brand-tx small { color: var(--muted); font-size: .82rem; }
-#topNav { display: flex; gap: .3rem; margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
-.nav-btn { display: flex; align-items: center; gap: .3rem; min-height: 2.75rem; padding: 0 .75rem; border-radius: 999px; border: 2px solid transparent; background: transparent; cursor: pointer; font-weight: 700; font-size: .95rem; transition: transform .12s, background .2s; }
+.brand-tx small { color: var(--muted); font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#topNav { display: flex; gap: .2rem; margin-left: auto; flex-wrap: nowrap; justify-content: flex-end; flex: 0 0 auto; }
+.nav-btn { display: flex; align-items: center; gap: .3rem; min-height: 2.75rem; padding: 0 .7rem; white-space: nowrap; flex: none; border-radius: 999px; border: 2px solid transparent; background: transparent; cursor: pointer; font-weight: 700; font-size: .95rem; transition: transform .12s, background .2s; }
 .nav-btn:hover { background: var(--surface2); transform: translateY(-2px); }
 .nav-btn.on { background: var(--red); color: var(--onAccent); }
 .nav-ic { font-size: 1.15rem; }
-.top-tools { display: flex; align-items: center; gap: .45rem; }
+.top-tools { display: flex; align-items: center; gap: .4rem; flex: none; }
 .icon-btn { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); cursor: pointer; font-size: 1.25rem; display: grid; place-items: center; transition: transform .3s; }
 .icon-btn:hover { transform: rotate(60deg); }
 .prog-ring { --p: 0; width: 2.75rem; height: 2.75rem; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--jade) calc(var(--p) * 1%), var(--line) 0); }
@@ -100,7 +100,11 @@ body[data-device="phone"] #bottomNav, body[data-device="tablet"][data-orient="po
 #bottomNav .nav-btn { flex-direction: column; gap: 0; padding: .25rem 0; border-radius: 14px; font-size: .72rem; min-height: 3.3rem; justify-content: center; }
 #bottomNav .nav-ic { font-size: 1.35rem; }
 body[data-device="desktop"] .nav-tx, body[data-device="tablet"] .nav-tx { display: inline; }
-@media (max-width: 1100px) { body[data-device="desktop"]:not(.forced) #topNav .nav-tx { display: none; } }
+/* 寬度不足時：先收起副標，再把選單改成只顯示圖示（滑鼠移上去有提示），避免文字斷行 */
+@media (max-width: 1320px) { body[data-device="desktop"] .brand-tx small { display: none; } }
+@media (max-width: 1300px) { body[data-device="desktop"]:not(.forced) #topNav { gap: .05rem; } body[data-device="desktop"]:not(.forced) #topNav .nav-btn { padding: 0 .5rem; font-size: .88rem; gap: .2rem; } body[data-device="desktop"] .topbar { gap: .45rem; } }
+@media (max-width: 1140px) { body[data-device="desktop"]:not(.forced) #topNav .nav-tx { display: none; } body[data-device="desktop"]:not(.forced) #topNav .nav-btn { padding: 0 .6rem; } }
+body[data-device="tablet"] #topNav .nav-tx { display: none; }
 
 /* ---------- 主內容 ---------- */
 main { flex: 1; padding: 1.1rem; display: flex; flex-direction: column; gap: 1.1rem; }
@@ -461,3 +465,9 @@ body[data-device="phone"] #toast, body[data-device="tablet"][data-orient="portra
 .small-box { width: min(26rem, 100%); }
 .confirm-msg { font-size: 1.1rem; font-weight: 700; margin: .3rem 0 .6rem; }
 #confirm { z-index: 75; }
+body[data-device="phone"] .topbar { gap: .4rem; }
+body[data-device="phone"] .top-tools { gap: .3rem; }
+body[data-device="phone"] .top-tools .icon-btn, body[data-device="phone"] .prog-ring { width: 2.5rem; height: 2.5rem; }
+body[data-device="phone"] .prog-ring span { width: 1.95rem; height: 1.95rem; }
+body[data-device="phone"] .logo { width: 2.3rem; height: 2.3rem; font-size: 1.2rem; }
+body[data-device="phone"] .brand-tx b { font-size: .98rem; }
