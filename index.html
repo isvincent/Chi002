@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>孔乙己・互動學習網 (Copy)</title>
+  <meta name="description" content="魯迅〈孔乙己〉高中國文互動學習網站：學習指引、互動視覺化、進階延伸、練習、測驗與學習歷程。">
+  <meta name="theme-color" content="#e8452c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="孔乙己">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@600;900&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="light">
+  <a class="skip" href="#view">跳到主要內容</a>
+  <div id="app">
+    <header class="topbar">
+      <button class="brand" data-act="nav" data-page="guide" aria-label="首頁">
+        <span class="logo" aria-hidden="true">孔</span>
+        <span class="brand-tx"><b id="brandName">孔乙己・互動學習網</b><small id="brandTag">魯迅〈孔乙己〉單元學習</small></span>
+      </button>
+      <nav id="topNav" aria-label="主選單"></nav>
+      <div class="top-tools">
+        <button id="btnInstall" class="btn sm" data-act="install" hidden>📲</button>
+        <div id="progRing" class="prog-ring" role="img"><span>0%</span></div>
+        <button id="btnSettings" class="icon-btn" data-act="settings" aria-haspopup="dialog">⚙️</button>
+      </div>
+    </header>
+
+    <main id="view" class="enter" tabindex="-1">
+      <noscript><p class="card">本網站需要啟用 JavaScript。</p></noscript>
+    </main>
+
+    <footer id="footer" class="footer"></footer>
+    <nav id="bottomNav" aria-label="主選單"></nav>
+  </div>
+
+  <div id="settings" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 id="settingsTitle">⚙️ 顯示與操作設定</h2>
+        <button class="icon-btn" data-act="closeSettings" aria-label="關閉">✕</button>
+      </div>
+      <div id="settingsBody"></div>
+      <div class="modal-foot">
+        <button id="settingsReset" class="btn ghost" data-act="resetSettings">恢復預設</button>
+        <button id="settingsDone" class="btn primary" data-act="closeSettings">完成</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirm" class="modal" hidden role="alertdialog" aria-modal="true" aria-labelledby="confirmMsg">
+    <div class="modal-box small-box">
+      <p id="confirmMsg" class="confirm-msg"></p>
+      <div class="modal-foot">
+        <button id="confirmNo" class="btn">取消</button>
+        <button id="confirmYes" class="btn primary">確定</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <script src="js/data.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/art.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
