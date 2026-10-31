@@ -216,12 +216,12 @@ const PAGES = ['guide', 'visual', 'advanced', 'practice', 'quiz', 'portfolio'];
 function renderChrome() {
   const t = T();
   $('#brandName').textContent = t.appName; $('#brandTag').textContent = t.tagline;
-  const items = PAGES.map(p => `<button class="nav-btn ${S.page === p ? 'on' : ''}" data-act="nav" data-page="${p}" aria-current="${S.page === p ? 'page' : 'false'}"><span class="nav-ic" aria-hidden="true">${t.navIcon[p]}</span><span class="nav-tx">${t.nav[p]}</span></button>`).join('');
+  const items = PAGES.map(p => `<button class="nav-btn ${S.page === p ? 'on' : ''}" data-act="nav" data-page="${p}" title="${esc(t.nav[p])}" aria-current="${S.page === p ? 'page' : 'false'}"><span class="nav-ic" aria-hidden="true">${t.navIcon[p]}</span><span class="nav-tx">${t.nav[p]}</span></button>`).join('');
   $('#topNav').innerHTML = items; $('#bottomNav').innerHTML = items;
   $('#btnSettings').setAttribute('aria-label', t.settings); $('#btnSettings').title = t.settings;
   const pb = $('#btnPalette'); if (pb) { pb.setAttribute('aria-label', t.paletteBtn); pb.title = t.paletteBtn; }
   $('#footer').innerHTML = `<span>${esc(t.footer)}</span><span>${esc(t.credit)}</span>`;
-  const ib = $('#btnInstall'); if (ib) ib.textContent = t.install;
+  const ib = $('#btnInstall'); if (ib) { const lb = t.install.replace(/^\S+\s*/, ''); ib.setAttribute('aria-label', lb); ib.title = lb; }
   updateProgressUI();
 }
 function updateProgressUI() {
