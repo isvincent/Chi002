@@ -121,7 +121,7 @@ function optsOf(q) { return q.type === 'tf' ? T().tfO : L(q.o); }
 VIEWS.practice = () => {
   const t = T(), pr = S.prog;
   if (P.mode !== 'cards' && (P.cur == null || !pool().includes(P.cur)) && P.pick == null) nextQ();
-  const head = `<header class="page-head"><h1>✏️ ${t.prTitle}</h1><p class="lead">${t.prIntro}</p></header>
+  const head = `<header class="page-head has-art"><div><h1>✏️ ${t.prTitle}</h1><p class="lead">${t.prIntro}</p></div><div class="head-art">${beansSVG()}</div></header>
     <div class="chips">${Object.keys(t.modes).map(k => `<button class="chip ${P.mode === k ? 'on' : ''}" data-act="pmode" data-k="${k}">${t.modes[k]}${k === 'wrong' && S.wrong.length ? ` <span class="count">${S.wrong.length}</span>` : ''}</button>`).join('')}</div>
     <div class="stat-row"><span>📝 ${t.answered} <b>${pr.prCount}</b></span><span>🎯 ${t.accuracy} <b>${pr.prCount ? Math.round(100 * pr.prCorrect / pr.prCount) : 0}%</b></span><span>🔥 ${t.streak} <b>${P.streak}</b></span><span>❗ ${t.wrongCount} <b>${S.wrong.length}</b></span></div>`;
   if (P.mode === 'cards') return head + cardsView();
@@ -221,7 +221,7 @@ VIEWS.quiz = () => {
   const head = `<header class="page-head"><h1>📝 ${t.qzTitle}</h1></header>`;
   if (!s) {
     const best = S.quizHist.length ? Math.max(...S.quizHist.map(q => q.score)) : null;
-    return head + `<div class="card quiz-intro"><div class="qi-art" aria-hidden="true">📜</div><p class="lead">${t.qzIntro}</p>
+    return head + `<div class="card quiz-intro"><div class="qi-art" aria-hidden="true">${quizArtSVG()}</div><p class="lead">${t.qzIntro}</p>
       <div class="stat-row center"><span>🧾 ${QN} ${S.settings.lang === 'zh' ? '題' : 'items'}</span><span>⏱ 10:00</span>${best != null ? `<span>🏆 ${t.best} <b>${best}</b></span>` : ''}</div>
       ${!S.profile.name ? `<p class="hint">👤 ${S.settings.lang === 'zh' ? '建議先到「學習歷程」填寫姓名、班級與座號。' : 'Tip: fill in your name in Portfolio first.'}</p>` : ''}
       <button class="btn primary lg pulse" data-act="qzStart">🚀 ${t.qzStart}</button></div>`;

@@ -7,7 +7,8 @@ const store = {
   set(k, v) { try { localStorage.setItem(KEY + k, JSON.stringify(v)); } catch (e) { /* 私密模式等 */ } }
 };
 
-const DEF_SET = { fs: false, sound: true, device: 'auto', layout: 'auto', lang: 'zh', font: 'md', theme: 'system' };
+const DEF_SET = { fs: false, sound: true, device: 'auto', layout: 'auto', lang: 'zh', font: 'md', theme: 'system', palette: 'tavern' };
+const PALETTES = [['tavern', '#e8452c', '#f59e0b'], ['celadon', '#1f7a6c', '#c99a2e'], ['ink', '#34405e', '#b4532a'], ['plum', '#a3285f', '#d9a21b'], ['bamboo', '#4f7a17', '#d97706']];
 const DEF_PROG = { guide: false, explore: [], game: false, adv: [], prCount: 0, prCorrect: 0, quiz: false, reflect: false };
 
 const S = {
@@ -172,17 +173,22 @@ function resolved() {
 function applyEnv() {
   const r = resolved(), b = document.body, root = document.documentElement, st = S.settings;
   b.dataset.device = r.device; b.dataset.orient = r.orient; b.dataset.theme = r.dark ? 'dark' : 'light';
+  b.dataset.palette = PALETTES.some(p => p[0] === st.palette) ? st.palette : 'tavern';
   b.classList.toggle('forced', st.device !== 'auto' && st.device !== (innerWidth < 640 ? 'phone' : innerWidth < 1024 ? 'tablet' : 'desktop'));
   root.style.fontSize = { sm: '16px', md: '18px', lg: '21px' }[st.font] || '18px';
   root.style.colorScheme = r.dark ? 'dark' : 'light';
   root.lang = st.lang === 'zh' ? 'zh-Hant' : 'en';
   document.title = T().appName;
-  const m = $('meta[name="theme-color"]'); if (m) m.setAttribute('content', r.dark ? '#1b1626' : '#e8452c');
+  const m = $('meta[name="theme-color"]'); if (m) { const cs = getComputedStyle(b); m.setAttribute('content', (r.dark ? cs.getPropertyValue('--bg') : cs.getPropertyValue('--red')).trim() || '#e8452c'); }
 }
 
 function segRow(key, label, opts) {
   const cur = S.settings[key];
   return `<div class="set-row"><span class="set-label">${label}</span><div class="seg" role="radiogroup" aria-label="${esc(label)}">${opts.map(([v, txt]) => `<button role="radio" aria-checked="${cur === v}" class="${cur === v ? 'on' : ''}" data-act="set" data-k="${key}" data-v="${v}">${txt}</button>`).join('')}</div></div>`;
+}
+function paletteRow() {
+  const t = T(), cur = S.settings.palette;
+  return `<div class="set-row"><span class="set-label">🎨 ${t.sPalette}</span><div class="swatches" role="radiogroup" aria-label="${esc(t.sPalette)}">${PALETTES.map(([id, a, b]) => `<button role="radio" aria-checked="${cur === id}" class="swatch ${cur === id ? 'on' : ''}" data-act="set" data-k="palette" data-v="${id}" style="--sa:${a};--sb:${b}"><i aria-hidden="true"></i><span>${t.palettes[id]}</span></button>`).join('')}</div></div>`;
 }
 function renderSettings() {
   const t = T();
@@ -193,7 +199,8 @@ function renderSettings() {
     segRow('layout', '🔄 ' + t.sLayout, [['auto', t.auto], ['portrait', t.portrait], ['landscape', t.landscape]]) +
     segRow('lang', '🌐 ' + t.sLang, [['zh', '繁體中文'], ['en', 'English']]) +
     segRow('font', '🔠 ' + t.sFont, [['sm', t.fSm], ['md', t.fMd], ['lg', t.fLg]]) +
-    segRow('theme', '🎨 ' + t.sTheme, [['system', t.system], ['light', t.light], ['dark', t.dark]]);
+    paletteRow() +
+    segRow('theme', '🌗 ' + t.sTheme, [['system', t.system], ['light', t.light], ['dark', t.dark]]);
   $('#settingsTitle').textContent = t.sTitle;
   $('#settingsDone').textContent = t.done;
   $('#settingsReset').textContent = t.reset;
@@ -212,6 +219,7 @@ function renderChrome() {
   const items = PAGES.map(p => `<button class="nav-btn ${S.page === p ? 'on' : ''}" data-act="nav" data-page="${p}" aria-current="${S.page === p ? 'page' : 'false'}"><span class="nav-ic" aria-hidden="true">${t.navIcon[p]}</span><span class="nav-tx">${t.nav[p]}</span></button>`).join('');
   $('#topNav').innerHTML = items; $('#bottomNav').innerHTML = items;
   $('#btnSettings').setAttribute('aria-label', t.settings); $('#btnSettings').title = t.settings;
+  const pb = $('#btnPalette'); if (pb) { pb.setAttribute('aria-label', t.paletteBtn); pb.title = t.paletteBtn; }
   $('#footer').innerHTML = `<span>${esc(t.footer)}</span><span>${esc(t.credit)}</span>`;
   const ib = $('#btnInstall'); if (ib) ib.textContent = t.install;
   updateProgressUI();
@@ -240,6 +248,11 @@ const ACT = {
   nav: el => { Sound.play('click'); go(el.dataset.page); },
   set: el => { let v = el.dataset.v; if (v === 'true') v = true; else if (v === 'false') v = false; setSetting(el.dataset.k, v); },
   settings: () => { Sound.play('click'); openSettings(true); },
+  palette: () => {
+    const i = PALETTES.findIndex(p => p[0] === S.settings.palette), nx = PALETTES[(i + 1) % PALETTES.length][0];
+    S.settings.palette = nx; store.set('settings', { ...S.settings, fs: false }); applyEnv(); Sound.play('pop');
+    toast('🎨 ' + T().palettes[nx]); if (!$('#settings').hidden) renderSettings();
+  },
   closeSettings: () => { Sound.play('click'); openSettings(false); },
   resetSettings: () => { S.settings = { ...DEF_SET }; store.set('settings', S.settings); toggleFs(false); renderAll(); Sound.play('click'); }
 };
