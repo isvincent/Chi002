@@ -1,9 +1,9 @@
 /* Service Worker：離線快取（更新內容時請修改 CACHE 版本號） */
-const CACHE = 'kongyiji-v4';
+const CACHE = 'kongyiji-v5';
 const ASSETS = [
-  './', './index.html', './manifest.webmanifest', './css/style.css',
-  './js/data.js', './js/i18n.js', './js/art.js', './js/core.js', './js/views.js', './js/game.js',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png'
+  './', './index.html', './manifest.webmanifest', './style.css',
+  './data.js', './i18n.js', './art.js', './core.js', './views.js', './game.js',
+  './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
