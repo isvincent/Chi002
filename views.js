@@ -49,7 +49,9 @@ VIEWS.guide = () => {
   </div>
 
   ${sec('🏮 ' + t.bg, `<ul class="dot-list">${L(GUIDE.background).map(x => `<li>${x}</li>`).join('')}</ul>`)}
-  ${sec('📖 ' + t.summary, `<p class="summary">${L(GUIDE.summary)}</p>`)}
+  ${sec('📖 ' + t.summary, `<p class="summary">${L(GUIDE.summary)}</p>
+    <h3 class="sub-title">🎞️ ${t.storyTitle}</h3>
+    <ol class="story-strip">${GUIDE.story.map((s, i) => `<li style="--i:${i}"><figure>${storyPanelSVG(i)}<figcaption>${L(s)}</figcaption></figure></li>`).join('')}</ol>`)}
   ${sec('🔑 ' + t.tips, `<div class="tips">${GUIDE.tips.map((x, i) => `<div class="tip" style="--i:${i}"><span>${x.icon}</span><p>${L(x)}</p></div>`).join('')}</div>`)}
 
   <div class="center">${S.prog.guide
@@ -81,7 +83,8 @@ VIS.tavern = () => {
     </div>
     <div class="info-panel">${h ? `<h3>${h.icon} ${L(h)}</h3><blockquote>${L(h.q)}</blockquote><p>${L(h.a)}</p>` : `<p class="hint">👆 ${t.tavernHint}</p>`}
       <p class="muted small">${t.explored} ${UI.tavernSeen.length} / ${TAVERN.length}</p></div>
-  </div>`;
+  </div>
+  <figure class="ill-fig wide">${classMapSVG()}<figcaption>🧭 ${t.illSpace}</figcaption></figure>`;
 };
 ACT.hot = el => {
   Sound.play('pop'); UI.tavern = el.dataset.id;
@@ -192,14 +195,14 @@ ACT.scene = el => {
 /* ================= 進階延伸 ================= */
 VIEWS.advanced = () => {
   const t = T();
-  return `<header class="page-head"><h1>🚀 ${t.advTitle}</h1><p class="lead">${t.advIntro}</p></header>
+  return `<header class="page-head has-art"><div><h1>🚀 ${t.advTitle}</h1><p class="lead">${t.advIntro}</p></div><div class="head-art">${studySVG()}</div></header>
   <div class="acc-list">${ADV.map((a, i) => {
     const open = UI.advOpen.includes(a.id);
     return `<article class="acc ${open ? 'open' : ''}" style="--c:${a.color};--i:${i}">
       <button class="acc-head" data-act="acc" data-id="${a.id}" aria-expanded="${open}">
         <span class="acc-ic">${a.icon}</span><span class="acc-t">${L(a)}</span>
         ${S.prog.adv.includes(a.id) ? '<span class="tick">✓</span>' : ''}<span class="acc-arrow">▾</span></button>
-      ${open ? `<div class="acc-body">${L(a.body).split('\n').map(p => `<p>${p}</p>`).join('')}${a.widget ? ADVW[a.widget]() : ''}</div>` : ''}
+      ${open ? `<div class="acc-body">${ADV_ART[a.id] ? `<figure class="ill-fig">${ADV_ART[a.id]()}</figure>` : ''}${L(a.body).split('\n').map(p => `<p>${p}</p>`).join('')}${a.widget ? ADVW[a.widget]() : ''}</div>` : ''}
     </article>`;
   }).join('')}</div>
   <p class="center"><a class="btn" href="https://cerclearning.tp.edu.tw/modern/datapage/77" target="_blank" rel="noopener">📜 ${t.wikisource}</a></p>`;
@@ -214,6 +217,7 @@ ACT.acc = el => {
   renderPage();
 };
 const ADVW = {};
+const ADV_ART = { narr: () => narrSVG(), crowd: () => crowdSVG(), nahan: () => shelfSVG() };
 UI.exam = 0;
 ADVW.exam = () => {
   const t = T();
@@ -250,7 +254,7 @@ VIEWS.portfolio = () => {
   const logs = S.log.filter(e => UI.logFilter === 'all' || e.type === UI.logFilter).slice(0, 120);
   const r = store.get('reflect', { mood: null, a: ['', '', ''] });
   if (UI.mood == null) UI.mood = r.mood;
-  return `<header class="page-head"><h1>🌱 ${t.pfTitle}</h1><p class="lead">${t.pfIntro}</p></header>
+  return `<header class="page-head has-art"><div><h1>🌱 ${t.pfTitle}</h1><p class="lead">${t.pfIntro}</p></div><div class="head-art">${growthSVG(GUIDE.steps.filter(s => stepDone(s.key)).length, GUIDE.steps.length)}</div></header>
   <div class="grid2">
     ${sec('👤 ' + t.profile, `<div class="form-grid">
       <label class="field"><span>${t.pName}</span><input id="pfName" value="${esc(pr.name)}" placeholder="${t.phName}" autocomplete="name"></label>

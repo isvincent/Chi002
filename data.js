@@ -82,6 +82,12 @@ const GUIDE = {
     { icon: '⚖️', zh: '找對比：前後、人我、笑聲與冷漠。', en: 'Find contrasts: before/after, self/others, laughter/indifference.' },
     { icon: '🧒', zh: '想敘事者：為什麼用孩子的眼睛來說？', en: 'Think about the narrator: why tell it through a child\'s eyes?' }
   ],
+  story: [
+    { zh: '初登場：站著喝酒而穿長衫，排出九文大錢', en: 'First visit: a long gown, drinking standing, lays out nine coppers' },
+    { zh: '教小伙計「我」：茴香豆的茴字，有四樣寫法', en: 'Teaching the boy: the "hui" in aniseed beans has four forms' },
+    { zh: '中秋過後：腿被打折，盤著兩腿、用手走來', en: 'After Mid-Autumn: legs broken, he comes in on his hands' },
+    { zh: '年關到次年：粉板仍記著「欠十九個錢」', en: 'New Year and beyond: the board still says "owes nineteen coppers"' }
+  ],
   summary: {
     zh: '魯鎮咸亨酒店裡，短衣幫站在櫃外喝酒，穿長衫的坐進裡屋。孔乙己是「站著喝酒而穿長衫的唯一的人」：讀過書卻沒考上秀才，又不會營生，只能替人抄書，偶爾偷書而被打。他滿口之乎者也，成為眾人取笑的對象，只有在孩子面前才顯出一點善意。後來他偷到丁舉人家，被打斷了腿，最後一次用手「走」來店裡喝酒，從此再也沒有出現——「大約孔乙己的確死了」。',
     en: 'At the Xianheng Tavern, labourers drink standing outside the counter while long-gowned gentlemen sit inside. Kong Yiji is "the only long-gowned customer who drank standing": educated but never passing even the first exam, unable to make a living, he copies books and sometimes steals them. Mocked by everyone, he shows kindness only to children. After stealing from Juren Ding his legs are broken; he "walks" in on his hands for one last bowl and is never seen again — "probably Kong Yiji really is dead."'

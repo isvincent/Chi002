@@ -1,5 +1,5 @@
 /* Service Worker：離線快取（更新內容時請修改 CACHE 版本號） */
-const CACHE = 'kongyiji-v5';
+const CACHE = 'kongyiji-v6';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest', './style.css',
   './data.js', './i18n.js', './art.js', './core.js', './views.js', './game.js',
